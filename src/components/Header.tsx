@@ -18,10 +18,11 @@ const Header = () => {
 
     const navLinks = [
         { name: "خانه", href: "/" },
-        { name: "خدمات", href: "#services" },
-        { name: "تیم ما", href: "#about" },
-        { name: "پروژه‌ها", href: "#projects" },
-        { name: "تماس با ما", href: "#contact" },
+        { name: "خدمات", href: "/services" },
+        { name: "وبلاگ", href: "/blog" },
+        { name: "تیم ما", href: "/#about" },
+        { name: "پروژه‌ها", href: "/#projects" },
+        { name: "تماس با ما", href: "/#contact" },
     ];
 
     return (
@@ -29,37 +30,39 @@ const Header = () => {
             className={cn(
                 "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
                 isScrolled
-                    ? "bg-background/60 backdrop-blur-xl border-b border-border/20 py-3 shadow-lg shadow-black/5"
-                    : "bg-transparent py-5 backdrop-blur-[2px]"
+                    ? "glass-header shadow-lg shadow-primary/5 py-3"
+                    : "bg-transparent py-6"
             )}
         >
             <div className="container px-4 mx-auto flex items-center justify-between">
                 {/* Logo */}
-                <div className="flex items-center gap-2">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
+                <div className="flex items-center gap-3 group cursor-pointer">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/20 group-hover:shadow-blue-500/40 transition-all duration-300 group-hover:scale-110">
                         <Code2 size={24} />
                     </div>
-                    <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400 hidden sm:block font-sans">
-                        Runtime Studio
-                    </span>
+                    <div className="hidden sm:flex flex-col">
+                        <span className="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-gray-400 font-sans tracking-tight leading-none group-hover:from-blue-400 group-hover:to-purple-400 transition-all duration-500">
+                            Runtime Studio
+                        </span>
+                        <span className="text-[10px] text-gray-500 font-mono tracking-[0.2em] uppercase">Software Group</span>
+                    </div>
                 </div>
 
                 {/* Desktop Nav */}
-                <nav className="hidden md:flex items-center gap-8">
+                <nav className="hidden md:flex items-center gap-1 bg-white/5 backdrop-blur-md px-2 py-1.5 rounded-full border border-white/5">
                     {navLinks.map((link) => (
-                        <a
+                        <Link
                             key={link.name}
-                            href={link.href}
-                            className="text-sm font-medium text-gray-300 hover:text-white transition-colors relative group"
+                            to={link.href}
+                            className="text-sm font-medium text-gray-300 hover:text-white transition-all px-4 py-2 rounded-full hover:bg-white/10 relative group font-vazir"
                         >
                             {link.name}
-                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-500 transition-all group-hover:w-full" />
-                        </a>
+                        </Link>
                     ))}
                 </nav>
 
                 {/* CTA Button */}
-                <button className="hidden md:block px-5 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 text-white text-sm font-medium transition-all hover:scale-105 active:scale-95">
+                <button className="hidden md:block px-6 py-2.5 rounded-full bg-primary/10 hover:bg-primary/20 border border-primary/20 text-primary hover:text-white text-sm font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/5 hover:shadow-primary/20 font-vazir">
                     شروع پروژه
                 </button>
 

@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
+import Meta from "@/components/SEO/Meta";
 
 interface Request {
     id: string;
@@ -29,6 +30,7 @@ const Admin = () => {
 
     return (
         <Layout>
+            <Meta title="پنل مدیریت" description="پنل مدیریت Runtime Studio" />
             <div className="container px-4 py-24 min-h-screen">
                 <div className="flex justify-between items-center mb-12">
                     <h1 className="text-3xl font-bold text-white">مدیریت درخواست‌ها</h1>

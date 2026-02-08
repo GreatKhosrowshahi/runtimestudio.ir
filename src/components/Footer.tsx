@@ -65,7 +65,7 @@ const Footer = () => {
                 </div>
 
                 <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500">
-                    <p className="font-sans dir-ltr">© {new Date().getFullYear()} Runtime Studio. All rights reserved.</p>
+                    <p className="font-sans dir-ltr">© 2026 Runtime Studio. All rights reserved.</p>
                     <div className="flex items-center gap-1 font-sans dir-ltr">
                         <span>Design & Development by</span>
                         <span className="text-white font-bold">runtimestudio</span>

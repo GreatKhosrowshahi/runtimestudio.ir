@@ -1,4 +1,3 @@
-
 import { Code, Smartphone, Palette, Globe, Server, Database } from "lucide-react";
 
 const services = [
@@ -54,37 +53,50 @@ const services = [
 
 const ServicesSection = () => {
     return (
-        <section id="services" className="py-24 relative overflow-hidden bg-black/40">
+        <section id="services" className="py-24 relative overflow-hidden bg-[#030303]">
+            {/* Background Elements */}
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
+                <div className="absolute top-[20%] left-[10%] w-72 h-72 bg-blue-600/5 rounded-full blur-[100px]" />
+                <div className="absolute bottom-[20%] right-[10%] w-72 h-72 bg-purple-600/5 rounded-full blur-[100px]" />
+            </div>
+
             <div className="container px-4 relative z-10">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">خدمات ما</h2>
-                    <p className="text-gray-400 max-w-2xl mx-auto">
+                <div className="text-center mb-16 animate-fade-up">
+                    <span className="text-blue-500 font-bold tracking-widest text-sm uppercase mb-4 block font-sans">Our Services</span>
+                    <h2 className="text-3xl md:text-5xl font-black text-white mb-6 font-vazir">خدمات ما</h2>
+                    <p className="text-gray-400 max-w-2xl mx-auto font-vazir text-lg leading-relaxed">
                         ارائه دهنده راهکارهای جامع نرم‌افزاری برای رشد و توسعه کسب‌وکار شما در دنیای دیجیتال.
                     </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {services.map((service) => (
-                        <div key={service.id} className="group p-8 rounded-3xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-blue-500/30 transition-all duration-300 hover:-translate-y-2">
-                            <div className="mb-6 bg-white/5 w-20 h-20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    {services.map((service, i) => (
+                        <div
+                            key={service.id}
+                            className="group relative flex flex-col p-8 rounded-[2rem] bg-white/5 border border-white/5 hover:bg-white/[0.07] hover:border-blue-500/30 transition-all duration-300 hover:-translate-y-2 animate-fade-up"
+                            style={{ animationDelay: `${i * 0.1}s` }}
+                        >
+                            <div className="mb-8 w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-white/5 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                                 {service.icon}
                             </div>
 
-                            <h3 className="text-2xl font-bold text-white mb-2 flex items-center justify-between">
-                                {service.titleFa}
-                                <span className="text-xs text-gray-500 font-sans font-normal opacity-0 group-hover:opacity-100 transition-opacity translate-x-4 group-hover:translate-x-0">
+                            <div className="mb-4">
+                                <h3 className="text-2xl font-bold text-white mb-2 font-vazir text-right" dir="rtl">
+                                    {service.titleFa}
+                                </h3>
+                                <p className="text-sm text-gray-500 font-sans font-medium text-right uppercase tracking-wider" dir="ltr">
                                     {service.title}
-                                </span>
-                            </h3>
+                                </p>
+                            </div>
 
-                            <p className="text-gray-400 mb-6 leading-relaxed">
+                            <p className="text-gray-400 mb-8 leading-relaxed font-vazir text-justify flex-grow" dir="rtl">
                                 {service.description}
                             </p>
 
-                            <ul className="space-y-2 border-t border-white/5 pt-6">
+                            <ul className="space-y-3 border-t border-white/5 pt-6 mt-auto">
                                 {service.features.map((feature, idx) => (
-                                    <li key={idx} className="flex items-center gap-2 text-sm text-gray-500 group-hover:text-blue-300 transition-colors font-sans" dir="ltr">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                                    <li key={idx} className="flex items-center gap-3 text-sm text-gray-400 group-hover:text-blue-300 transition-colors font-sans" dir="ltr">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-blue-500/50 group-hover:bg-blue-400" />
                                         {feature}
                                     </li>
                                 ))}

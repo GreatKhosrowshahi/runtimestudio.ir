@@ -14,8 +14,14 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+import Meta from "@/components/SEO/Meta";
+
 const Landing = () => (
   <Layout>
+    <Meta
+      title="استودیوی توسعه نرم‌افزار و طراحی وب"
+      description="Runtime Studio مرجع تخصصی طراحی وب‌سایت، اپلیکیشن و معماری نرم‌افزار. ارائه راهکارهای نوین برنامه‌نویسی با تکنولوژی‌های روز."
+    />
     <Hero />
     <ServicesSection />
     <TeamSection />
@@ -24,21 +30,30 @@ const Landing = () => (
   </Layout>
 );
 
+import ServicesPage from "./pages/Services";
+
+import { HelmetProvider } from "react-helmet-async";
+import BlogPage from "./pages/Blog";
+
 const App = () => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Landing />} />
+              <Route path="/services" element={<ServicesPage />} />
+              <Route path="/blog" element={<BlogPage />} />
+              <Route path="/admin" element={<Admin />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
   );
 };
 
