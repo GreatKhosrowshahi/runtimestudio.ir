@@ -1,24 +1,29 @@
-import { Layout } from "@/components/layout/Layout";
-import { Hero } from "@/components/home/Hero";
-import { TechMarquee } from "@/components/home/TechMarquee";
-import { Services } from "@/components/home/Services";
-import { FeaturedProjects } from "@/components/home/FeaturedProjects";
+
+import Layout from "@/components/Layout";
+import Meta from "@/components/SEO/Meta";
+import Hero from "@/components/Hero";
+import ServicesSection from "@/components/ServicesSection";
 import { About } from "@/components/home/About";
-import { Stats } from "@/components/home/Stats";
-import { CTA } from "@/components/home/CTA";
+import ProjectSection from "@/components/ProjectSection";
+import TeamSection from "@/components/TeamSection";
+import ContactSection from "@/components/ContactSection";
 
 const Index = () => {
   return (
     <Layout>
+      <Meta
+        title="طراحی سایت و توسعه وب اپلیکیشن حرفه‌ای | Runtime Studio"
+        description="رانتایم استودیو متخصص در طراحی سایت اختصاصی، توسعه وب اپلیکیشن‌های مقیاس‌پذیر و سئو فنی با تمرکز بر استانداردهای مهندسی نرم‌افزار."
+      />
       <Hero />
-      <TechMarquee />
-      <Services />
-      <FeaturedProjects />
       <About />
-      <Stats />
-      <CTA />
+      <ServicesSection />
+      <ProjectSection />
+      <TeamSection />
+      <ContactSection />
     </Layout>
   );
 };
 
 export default Index;
+

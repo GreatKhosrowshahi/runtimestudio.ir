@@ -7,20 +7,10 @@ import projectFintech from "@/assets/project-fintech.jpg";
 
 const projects = [
   {
-    title: "داشبورد تحلیلی",
-    category: "وب اپلیکیشن",
-    image: projectDashboard,
-  },
-  {
-    title: "فروشگاه آنلاین",
-    category: "اپلیکیشن موبایل",
-    image: projectEcommerce,
-  },
-  {
-    title: "اپلیکیشن مالی",
-    category: "فین‌تک",
-    image: projectFintech,
-  },
+    title: "مورفو کافه",
+    category: "منوی دیجیتال هوشمند",
+    image: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=1000",
+  }
 ];
 
 export const FeaturedProjects = () => {

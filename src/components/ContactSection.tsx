@@ -1,147 +1,167 @@
-import { Mail, MapPin, Phone, Send, ArrowRight } from "lucide-react";
-import { useState } from "react";
+
+import { motion } from "framer-motion";
+import { Mail, Phone, MapPin, Send, ArrowRight } from "lucide-react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
+import { supabase } from "@/lib/supabase";
 
 const ContactSection = () => {
+    const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: "",
-        phone: "",
-        projectType: "Web Development",
-        description: ""
+        email: "",
+        subject: "General Inquiry",
+        message: ""
     });
-    const [loading, setLoading] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
 
-        setTimeout(() => {
-            const newRequest = {
-                id: Date.now().toString(),
-                ...formData,
-                date: new Date().toISOString()
-            };
-            const existingRequests = JSON.parse(localStorage.getItem('runtime_requests') || '[]');
-            localStorage.setItem('runtime_requests', JSON.stringify([...existingRequests, newRequest]));
+        try {
+            const { error } = await supabase
+                .from('contact_requests')
+                .insert([
+                    {
+                        name: formData.name,
+                        email: formData.email,
+                        message: formData.message,
+                        status: 'pending'
+                    }
+                ]);
 
-            toast.success("درخواست شما با موفقیت ثبت شد.");
-            setFormData({ name: "", phone: "", projectType: "Web Development", description: "" });
+            if (error) throw error;
+
+            toast.success("درخواست شما با موفقیت ثبت شد. تیکت مهندسی برای شما صادر گردید.");
+            setFormData({ name: "", email: "", subject: "General Inquiry", message: "" });
+        } catch (error: any) {
+            console.error("Supabase Error:", error);
+            toast.error("خطا در ثبت درخواست. لطفاً دوباره تلاش کنید.");
+        } finally {
             setLoading(false);
-        }, 1000);
+        }
     };
 
+    const contactInfo = [
+        { icon: Phone, label: "Technical Support", value: "0930 121 1301", href: "tel:+989301211301" },
+        { icon: Phone, label: "Management", value: "0930 120 8899", href: "tel:+989301208899" },
+        { icon: Mail, label: "Business Inquiry", value: "info@runtimestudio.ir", href: "mailto:info@runtimestudio.ir" },
+        { icon: MapPin, label: "Engineering Hub", value: "Qazvin, Iran", href: "#" }
+    ];
+
     return (
-        <section id="contact" className="py-32 relative overflow-hidden bg-[#030303]">
-            {/* Ambient Background */}
-            <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-600/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-[800px] h-[800px] bg-purple-600/5 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2 pointer-events-none" />
+        <section id="contact" className="py-24 relative z-10" aria-labelledby="contact-heading">
+            <div className="container-width">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+                    {/* Left: Content */}
+                    <div>
+                        <motion.span
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            viewport={{ once: true }}
+                            className="text-xs font-bold en text-runtime-primary uppercase tracking-[0.3em] mb-4 block"
+                        >
+                            Contact Engineers
+                        </motion.span>
+                        <motion.h2
+                            id="contact-heading"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5 }}
+                            className="text-3xl md:text-5xl font-black mb-6 leading-tight"
+                        >
+                            آماده شروع پروژه‌ی <span className="text-gradient">بعدی شما</span> هستیم
+                        </motion.h2>
+                        <motion.p
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: 0.1 }}
+                            className="text-gray-400 text-lg mb-12 font-vazir"
+                        >
+                            ایده‌های خود را با تیم فنی ما در میان بگذارید تا بهترین راهکار مهندسی را برای شما بررسی و تدوین کنیم.
+                        </motion.p>
 
-            <div className="container px-4 relative z-10">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-                    {/* Info Side */}
-                    <div className="space-y-12 animate-fade-up">
-                        <div className="space-y-6">
-                            <span className="text-blue-500 font-bold tracking-widest text-sm uppercase font-sans">Get in Touch</span>
-                            <h2 className="text-4xl md:text-7xl font-black text-white tracking-tight font-sans leading-none">
-                                LET'S WORK <br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">TOGETHER</span>
-                            </h2>
-                            <p className="text-gray-400 text-lg md:text-xl font-vazir leading-relaxed max-w-lg" dir="rtl">
-                                برای شروع یک پروژه خارق‌العاده آماده‌اید؟ ما اینجا هستیم تا ایده‌های شما را به واقعیت دیجیتال تبدیل کنیم.
-                            </p>
-                        </div>
-
-                        <div className="space-y-6">
-                            {[
-                                { icon: Phone, label: "CALL US", value: "0930 121 1301", color: "text-blue-400", bg: "bg-blue-500/10" },
-                                { icon: Mail, label: "EMAIL US", value: "runtimestudio@gmail.com", color: "text-purple-400", bg: "bg-purple-500/10" },
-                                { icon: MapPin, label: "VISIT US", value: "Qazvin, Iran", color: "text-pink-400", bg: "bg-pink-500/10" }
-                            ].map((item, i) => (
-                                <div key={i} className="group glass-card p-6 rounded-3xl flex items-center gap-6 hover:border-white/20 transition-all duration-300">
-                                    <div className={`w-16 h-16 rounded-2xl ${item.bg} flex items-center justify-center ${item.color} group-hover:scale-110 transition-transform`}>
-                                        <item.icon size={28} />
+                        <div className="grid grid-cols-1 gap-6">
+                            {contactInfo.map((info, idx) => (
+                                <motion.a
+                                    key={info.label}
+                                    href={info.href}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.5, delay: idx * 0.1 }}
+                                    className="flex items-center gap-6 p-6 rounded-2xl glass border border-white/5 hover:border-runtime-primary/30 transition-all group"
+                                >
+                                    <div className="w-12 h-12 rounded-xl bg-runtime-primary/10 flex items-center justify-center text-runtime-primary group-hover:scale-110 transition-transform">
+                                        <info.icon size={24} />
                                     </div>
                                     <div>
-                                        <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1 font-sans">{item.label}</h3>
-                                        <p className="text-white font-bold text-xl font-sans tracking-wide">{item.value}</p>
+                                        <p className="text-[10px] en text-gray-500 font-bold uppercase tracking-widest mb-1">{info.label}</p>
+                                        <p className="text-white font-bold en">{info.value}</p>
                                     </div>
-                                </div>
+                                </motion.a>
                             ))}
                         </div>
                     </div>
 
-                    {/* Form Side */}
-                    <div className="glass-card p-8 md:p-12 rounded-[3rem] border-white/5 animate-fade-up" style={{ animationDelay: "0.2s" }}>
-                        <form onSubmit={handleSubmit} className="space-y-8">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                <div className="space-y-3 group">
-                                    <label className="text-xs font-bold text-gray-500 uppercase tracking-wider font-vazir">نام و نام خانوادگی</label>
+                    {/* Right: Form */}
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        className="glass-card p-8 md:p-12 rounded-3xl relative"
+                    >
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <label className="text-xs font-bold text-gray-500 uppercase tracking-widest font-vazir">نام شما</label>
                                     <input
                                         type="text"
                                         required
                                         value={formData.name}
                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                        className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-blue-500 focus:bg-white/10 transition-all placeholder:text-gray-700 font-vazir text-right"
-                                        placeholder="نام شما"
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-runtime-primary/50 outline-none transition-all font-vazir"
                                     />
                                 </div>
-                                <div className="space-y-3 group">
-                                    <label className="text-xs font-bold text-gray-500 uppercase tracking-wider font-vazir">شماره تماس</label>
+                                <div className="space-y-2">
+                                    <label className="text-xs font-bold text-gray-500 uppercase tracking-widest font-vazir">ایمیل یا شماره</label>
                                     <input
-                                        type="tel"
+                                        type="text"
                                         required
-                                        value={formData.phone}
-                                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                        className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-blue-500 focus:bg-white/10 transition-all font-sans placeholder:text-gray-700"
-                                        placeholder="+98 9..."
+                                        value={formData.email}
+                                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-runtime-primary/50 outline-none transition-all en"
                                     />
                                 </div>
                             </div>
 
-                            <div className="space-y-3">
-                                <label className="text-xs font-bold text-gray-500 uppercase tracking-wider font-vazir">موضوع پروژه</label>
-                                <div className="grid grid-cols-2 gap-4">
-                                    {["Web Development", "Mobile App", "UI/UX Design", "Consulting"].map((type) => (
-                                        <div
-                                            key={type}
-                                            onClick={() => setFormData({ ...formData, projectType: type })}
-                                            className={`cursor-pointer rounded-xl px-4 py-3 text-center text-sm font-bold transition-all border ${formData.projectType === type
-                                                    ? "bg-blue-600 text-white border-blue-500"
-                                                    : "bg-white/5 text-gray-400 border-white/5 hover:bg-white/10"
-                                                }`}
-                                        >
-                                            {type}
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div className="space-y-3">
-                                <label className="text-xs font-bold text-gray-500 uppercase tracking-wider font-vazir">توضیحات پروژه</label>
+                            <div className="space-y-2">
+                                <label className="text-xs font-bold text-gray-500 uppercase tracking-widest font-vazir">توضیحات پروژه</label>
                                 <textarea
-                                    rows={4}
                                     required
-                                    value={formData.description}
-                                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                    className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-blue-500 focus:bg-white/10 transition-all resize-none placeholder:text-gray-700 font-vazir text-right"
-                                    placeholder="درباره نیازهای خود بنویسید..."
+                                    rows={4}
+                                    value={formData.message}
+                                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-white focus:ring-2 focus:ring-runtime-primary/50 outline-none transition-all font-vazir resize-none"
                                 />
                             </div>
 
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full group bg-white text-black hover:bg-blue-600 hover:text-white font-black py-5 rounded-2xl transition-all duration-300 flex items-center justify-center gap-4 text-lg"
+                                className="w-full py-4 rounded-xl bg-runtime-primary text-white font-black flex items-center justify-center gap-3 hover:bg-runtime-primary/80 transition-all font-vazir group"
                             >
-                                {loading ? "SENDING..." : (
+                                {loading ? "در حال ارسال تیکت..." : (
                                     <>
-                                        START PROJECT
-                                        <ArrowRight className="transition-transform group-hover:translate-x-2" />
+                                        ثبت درخواست مشاوره فنی
+                                        <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                                     </>
                                 )}
                             </button>
                         </form>
-                    </div>
+                    </motion.div>
                 </div>
             </div>
         </section>
@@ -149,3 +169,4 @@ const ContactSection = () => {
 };
 
 export default ContactSection;
+

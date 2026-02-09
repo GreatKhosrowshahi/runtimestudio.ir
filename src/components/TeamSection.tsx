@@ -1,140 +1,139 @@
-import { Github, Linkedin, Twitter, Globe } from "lucide-react";
-import yazdanImg from "@/assets/yazdan.jpg";
+
+import { motion } from "framer-motion";
+import { Github, Send, Terminal, Cpu } from "lucide-react";
 
 interface TeamMember {
-    id: number;
     name: string;
     role: string;
     image: string;
     bio: string;
-    skills: string[];
+    specialties: string[];
     socials: {
         github?: string;
-        linkedin?: string;
-        twitter?: string;
-        portfolio?: string;
         telegram?: string;
     };
 }
 
-const teamMembers: TeamMember[] = [
+const team: TeamMember[] = [
     {
-        id: 1,
         name: "Yazdan Astaraki",
-        role: "Founder & Lead Developer",
-        image: yazdanImg,
-        bio: "توسعه‌دهنده فول‌استک با تخصص در معماری نرم‌افزارهای مقیاس‌پذیر. عاشق کدنویسی تمیز و تکنولوژی‌های جدید.",
-        skills: ["React", "Node.js", "TypeScript", "Next.js"],
+        role: "Founder & Lead Engineer",
+        image: "/src/assets/team/yazdan.jpg",
+        bio: "معمار ارشد نرم‌افزار با تمرکز بر سیستم‌های توزیع‌شده و بهینه‌سازی زیرساخت‌های ابری. هدایت نقشه راه فنی استودیو.",
+        specialties: ["Software Architecture", "Distributed Systems", "Kubernetes", "TypeScript Expert"],
         socials: {
             github: "https://github.com/GreatKhosrowshahi",
-            linkedin: "https://linkedin.com/in/yazdan",
-            telegram: "https://t.me/thatsboyyazdan",
-            portfolio: "https://yazdan.dev"
+            telegram: "https://t.me/thatsboyyazdan"
         }
     },
     {
-        id: 2,
-        name: "سارا محمدی",
-        role: "UI/UX Designer",
-        image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=400",
-        bio: "طراح رابط کاربری با نگاهی هنرمندانه و تمرکز بر تجربه کاربری. خلق رابط‌های زیبا و کاربردی تخصص من است.",
-        skills: ["Figma", "Adobe XD", "Prototyping", "User Research"],
-        socials: {
-            linkedin: "#",
-            twitter: "#"
-        }
-    },
-    {
-        id: 3,
-        name: "علی کریمی",
-        role: "Backend Developer",
-        image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400",
-        bio: "متخصص بازیسازی و سیستم‌های توزیع‌شده. علاقه‌مند به حل چالش‌های پیچیده نرم‌افزاری.",
-        skills: ["Python", "Django", "Docker", "PostgreSQL"],
+        name: "Ali Shams",
+        role: "Co-Founder & Full-Stack Developer",
+        image: "/src/assets/team/alishams.jpg",
+        bio: "متخصص توسعه Full-stack با تمرکز بر پرفورمنس و امنیت. پیاده‌سازی استانداردهای مدرن مهندسی در پروژه‌ها.",
+        specialties: ["React Stack", "Node.js", "App Security"],
         socials: {
             github: "#",
-            linkedin: "#"
+            telegram: "https://t.me/thatsboyali"
+        }
+    },
+    {
+        name: "Mohammad Feyz",
+        role: "Senior Frontend Engineer",
+        image: "/src/assets/team/mohammadfeyz.jpg",
+        bio: "طراح محصول با نگاه مهندسی به رابط کاربری. پل ارتباطی بین هنر طراحی و محدودیت‌های فنی توسعه.",
+        specialties: ["Next.js", "UI Engineering", "Motion Architecture"],
+        socials: {
+            telegram: "https://t.me/+989999978569"
         }
     }
 ];
 
 const TeamSection = () => {
     return (
-        <section id="about" className="py-24 relative overflow-hidden bg-[#030303]">
-            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-purple-600/5 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2 pointer-events-none" />
-
-            <div className="container px-4 relative z-10">
-                <div className="text-center mb-16 animate-fade-up">
-                    <span className="text-blue-500 font-bold tracking-widest text-sm uppercase mb-4 block font-sans">Our Team</span>
-                    <h2 className="text-3xl md:text-5xl font-black text-white mb-6 font-vazir">تیم متخصص ما</h2>
-                    <p className="text-gray-400 max-w-2xl mx-auto font-vazir text-lg leading-relaxed">
-                        ما مجموعه‌ای از بهترین متخصصان را گرد هم آورده‌ایم تا پروژه‌های شما را با بالاترین کیفیت پیاده‌سازی کنیم.
-                    </p>
+        <section id="about" className="py-24 relative z-10" aria-labelledby="team-heading">
+            <div className="container-width">
+                <div className="flex flex-col items-center text-center mb-20">
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-runtime-secondary/10 border border-runtime-secondary/20 text-runtime-secondary text-[10px] font-bold uppercase tracking-widest en mb-6"
+                    >
+                        <Terminal size={12} />
+                        Engineers behind the code
+                    </motion.div>
+                    <motion.h2
+                        id="team-heading"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="text-3xl md:text-5xl font-black mb-6"
+                    >
+                        تیم <span className="text-gradient">متخصص و مهندسی</span> ما
+                    </motion.h2>
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="text-gray-400 text-lg max-w-2xl font-vazir"
+                    >
+                        ما از مجموعه‌ای از مهندسان نرم‌افزار و تحلیل‌گران محصول تشکیل شده‌ایم که دغدغه کیفیت و استاندارد دارند.
+                    </motion.p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    {teamMembers.map((member, i) => (
-                        <div key={member.id} className="group relative bg-white/5 rounded-[2rem] p-8 border border-white/5 hover:border-blue-500/30 transition-all duration-300 hover:-translate-y-2 animate-fade-up" style={{ animationDelay: `${i * 0.1}s` }}>
-
-                            <div className="relative z-10 flex flex-col items-center">
-                                <div className="w-32 h-32 rounded-full p-1 bg-gradient-to-tr from-blue-500 to-purple-600 mb-6 group-hover:scale-105 transition-transform duration-300">
-                                    <div className="w-full h-full rounded-full overflow-hidden border-4 border-[#030303]">
-                                        <img
-                                            src={member.image}
-                                            alt={member.name}
-                                            className="w-full h-full object-cover"
-                                            onError={(e) => {
-                                                e.currentTarget.style.display = 'none';
-                                                e.currentTarget.nextElementSibling?.classList.remove('hidden');
-                                            }}
-                                        />
-                                        <div className="hidden w-full h-full flex items-center justify-center text-gray-400 text-3xl font-bold bg-gray-800">
-                                            {member.name.charAt(0)}
-                                        </div>
-                                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {team.map((member, idx) => (
+                        <motion.div
+                            key={member.name}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: idx * 0.1 }}
+                            className="glass-card rounded-[2rem] p-8 group overflow-hidden"
+                        >
+                            <div className="relative mb-8 flex justify-center">
+                                <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-runtime-bg/50 ring-2 ring-runtime-primary/20 group-hover:ring-runtime-primary transition-all duration-500">
+                                    <img
+                                        src={member.image}
+                                        alt={member.name}
+                                        className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                                        loading="lazy"
+                                    />
                                 </div>
-
-                                <div className="text-center mb-6">
-                                    <h3 className="text-2xl font-bold text-white mb-2 font-sans">{member.name}</h3>
-                                    <div className="text-blue-400 text-sm font-bold uppercase tracking-wider mb-4 font-sans">{member.role}</div>
-                                    <p className="text-gray-400 text-sm leading-relaxed mb-6 font-vazir text-center line-clamp-3">
-                                        {member.bio}
-                                    </p>
+                                <div className="absolute -bottom-2 bg-runtime-bg px-4 py-1 rounded-full border border-white/5 text-[10px] en font-mono font-bold text-runtime-primary shadow-2xl">
+                                    {member.role}
                                 </div>
+                            </div>
 
-                                <div className="flex flex-wrap gap-2 justify-center mb-8">
-                                    {member.skills.map((skill) => (
-                                        <span key={skill} className="px-3 py-1 rounded-full bg-white/5 text-xs font-bold text-gray-400 border border-white/5 font-sans group-hover:border-blue-500/30 transition-colors">
-                                            {skill}
+                            <div className="text-center">
+                                <h3 className="text-2xl font-bold text-white mb-2 font-vazir">{member.name}</h3>
+                                <p className="text-gray-400 text-sm leading-relaxed mb-6 font-vazir min-h-[4.5rem]">
+                                    {member.bio}
+                                </p>
+
+                                <div className="flex flex-wrap justify-center gap-2 mb-8">
+                                    {member.specialties.map(s => (
+                                        <span key={s} className="px-2 py-1 rounded-lg bg-white/5 border border-white/5 text-[10px] en font-bold text-gray-500">
+                                            {s}
                                         </span>
                                     ))}
                                 </div>
 
-                                <div className="flex items-center justify-center gap-4 pt-6 border-t border-white/5 w-full">
+                                <div className="flex items-center justify-center gap-4 pt-6 border-t border-white/5">
                                     {member.socials.github && (
-                                        <a href={member.socials.github} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-white/5 text-gray-400 hover:bg-white hover:text-black transition-all">
-                                            <Github size={18} />
+                                        <a href={member.socials.github} target="_blank" rel="noopener noreferrer" className="p-2 text-gray-500 hover:text-white transition-colors">
+                                            <Github size={20} />
                                         </a>
                                     )}
-                                    {member.socials.linkedin && (
-                                        <a href={member.socials.linkedin} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-white/5 text-gray-400 hover:bg-[#0077b5] hover:text-white transition-all">
-                                            <Linkedin size={18} />
-                                        </a>
-                                    )}
-                                    {member.socials.twitter && (
-                                        <a href={member.socials.twitter} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-white/5 text-gray-400 hover:bg-[#1DA1F2] hover:text-white transition-all">
-                                            <Twitter size={18} />
-                                        </a>
-                                    )}
-                                    {member.socials.portfolio && (
-                                        <a href={member.socials.portfolio} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-white/5 text-gray-400 hover:bg-green-500 hover:text-white transition-all">
-                                            <Globe size={18} />
+                                    {member.socials.telegram && (
+                                        <a href={member.socials.telegram} target="_blank" rel="noopener noreferrer" className="p-2 text-gray-500 hover:text-white transition-colors">
+                                            <Send size={20} />
                                         </a>
                                     )}
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
             </div>
@@ -143,3 +142,4 @@ const TeamSection = () => {
 };
 
 export default TeamSection;
+

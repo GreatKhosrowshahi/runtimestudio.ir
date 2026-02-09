@@ -1,100 +1,176 @@
 
 import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Code2 } from "lucide-react";
-import { Link } from "react-router-dom"; // Assuming react-router-dom is used
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const Header = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const location = useLocation();
 
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 20);
         };
-        window.addEventListener("scroll", handleScroll);
+        window.addEventListener("scroll", handleScroll, { passive: true });
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    // Close mobile menu on route change
+    useEffect(() => {
+        setIsMobileMenuOpen(false);
+    }, [location.pathname]);
+
     const navLinks = [
-        { name: "خانه", href: "/" },
-        { name: "خدمات", href: "/services" },
-        { name: "وبلاگ", href: "/blog" },
-        { name: "تیم ما", href: "/#about" },
-        { name: "پروژه‌ها", href: "/#projects" },
-        { name: "تماس با ما", href: "/#contact" },
+        { name: "خانه", href: "/", isAnchor: false },
+        { name: "خدمات", href: "/services", isAnchor: false },
+        { name: "پروژه‌ها", href: "/#projects", isAnchor: true },
+        { name: "وبلاگ", href: "/blog", isAnchor: false },
+        { name: "درباره ما", href: "/#about", isAnchor: true },
+        { name: "تماس", href: "/#contact", isAnchor: true },
     ];
+
+    const HeaderLink = ({ link }: { link: typeof navLinks[0] }) => {
+        const isActive = location.pathname === link.href;
+
+        if (link.isAnchor) {
+            return (
+                <a
+                    href={link.href}
+                    className={cn(
+                        "text-sm font-medium transition-colors hover:text-runtime-primary",
+                        "px-4 py-2 rounded-full hover:bg-white/5",
+                        "text-gray-400"
+                    )}
+                >
+                    {link.name}
+                </a>
+            );
+        }
+
+        return (
+            <Link
+                to={link.href}
+                onClick={(e) => {
+                    if (location.pathname === "/" && link.href === "/") {
+                        e.preventDefault();
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                    }
+                }}
+                className={cn(
+                    "text-sm font-medium transition-colors hover:text-runtime-primary",
+                    "px-4 py-2 rounded-full hover:bg-white/5",
+                    isActive ? "text-white bg-white/5" : "text-gray-400"
+                )}
+            >
+                {link.name}
+            </Link>
+        );
+    };
 
     return (
         <header
             className={cn(
-                "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+                "fixed top-0 left-0 right-0 z-[100] transition-all duration-500",
                 isScrolled
-                    ? "glass-header shadow-lg shadow-primary/5 py-3"
-                    : "bg-transparent py-6"
+                    ? "py-4 glass-header"
+                    : "py-6 bg-transparent"
             )}
         >
-            <div className="container px-4 mx-auto flex items-center justify-between">
-                {/* Logo */}
-                <div className="flex items-center gap-3 group cursor-pointer">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/20 group-hover:shadow-blue-500/40 transition-all duration-300 group-hover:scale-110">
-                        <Code2 size={24} />
+            <div className="container-width flex items-center justify-between">
+                {/* Logo Section */}
+                <Link to="/" className="flex items-center gap-3 group">
+                    <div className="relative">
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-runtime-primary/20 to-runtime-secondary/20 flex items-center justify-center text-white border border-white/10 group-hover:scale-110 transition-transform duration-500 overflow-hidden">
+                            <img src="/favicon.ico" alt="Runtime Studio Logo" className="w-6 h-6 object-contain" />
+                        </div>
+                        <div className="absolute inset-0 rounded-xl bg-runtime-primary blur-md opacity-0 group-hover:opacity-40 transition-opacity duration-500" />
                     </div>
-                    <div className="hidden sm:flex flex-col">
-                        <span className="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-gray-400 font-sans tracking-tight leading-none group-hover:from-blue-400 group-hover:to-purple-400 transition-all duration-500">
-                            Runtime Studio
+                    <div className="flex flex-col">
+                        <span className="text-xl font-black tracking-tight text-white en">
+                            Runtime<span className="text-runtime-primary">Studio</span>
                         </span>
-                        <span className="text-[10px] text-gray-500 font-mono tracking-[0.2em] uppercase">Software Group</span>
+                        <span className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-mono leading-none">
+                            Dev Studio
+                        </span>
                     </div>
-                </div>
+                </Link>
 
-                {/* Desktop Nav */}
-                <nav className="hidden md:flex items-center gap-1 bg-white/5 backdrop-blur-md px-2 py-1.5 rounded-full border border-white/5">
+                {/* Desktop Navigation */}
+                <nav className="hidden lg:flex items-center gap-1 glass px-2 py-1 rounded-full border border-white/5 shadow-2xl">
                     {navLinks.map((link) => (
-                        <Link
-                            key={link.name}
-                            to={link.href}
-                            className="text-sm font-medium text-gray-300 hover:text-white transition-all px-4 py-2 rounded-full hover:bg-white/10 relative group font-vazir"
-                        >
-                            {link.name}
-                        </Link>
+                        <HeaderLink key={link.name} link={link} />
                     ))}
                 </nav>
 
-                {/* CTA Button */}
-                <button className="hidden md:block px-6 py-2.5 rounded-full bg-primary/10 hover:bg-primary/20 border border-primary/20 text-primary hover:text-white text-sm font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/5 hover:shadow-primary/20 font-vazir">
-                    شروع پروژه
-                </button>
+                {/* Header Actions */}
+                <div className="flex items-center gap-4">
+                    <a href="/#contact" className="hidden sm:block en text-xs font-bold px-5 py-2.5 rounded-full bg-runtime-primary text-white hover:bg-runtime-primary/80 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-runtime-primary/20">
+                        Start a Project
+                    </a>
 
-                {/* Mobile Menu Button */}
-                <button
-                    className="md:hidden p-2 text-gray-300 hover:text-white"
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                >
-                    {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                </button>
-            </div>
-
-            {/* Mobile Menu */}
-            {isMobileMenuOpen && (
-                <div className="absolute top-full left-0 right-0 bg-background/95 backdrop-blur-xl border-b border-border/50 p-4 md:hidden flex flex-col gap-4 animate-in slide-in-from-top-5">
-                    {navLinks.map((link) => (
-                        <a
-                            key={link.name}
-                            href={link.href}
-                            className="text-gray-300 hover:text-white py-2 text-center"
-                            onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                            {link.name}
-                        </a>
-                    ))}
-                    <button className="w-full py-3 rounded-lg bg-blue-600 text-white font-medium shadow-lg shadow-blue-500/20">
-                        شروع پروژه
+                    {/* Mobile Menu Toggle */}
+                    <button
+                        className="lg:hidden p-2 text-white hover:bg-white/5 rounded-lg transition-colors"
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        aria-label="Toggle Menu"
+                    >
+                        {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
                     </button>
                 </div>
-            )}
+            </div>
+
+            {/* Mobile Navigation Interface */}
+            <AnimatePresence>
+                {isMobileMenuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.3, ease: "easeOut" }}
+                        className="absolute top-full left-0 right-0 bg-runtime-bg/95 backdrop-blur-2xl border-b border-white/5 lg:hidden overflow-hidden"
+                    >
+                        <nav className="flex flex-col p-6 gap-2">
+                            {navLinks.map((link, idx) => (
+                                <motion.div
+                                    key={link.name}
+                                    initial={{ opacity: 0, x: -10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: idx * 0.05 }}
+                                >
+                                    {link.isAnchor ? (
+                                        <a
+                                            href={link.href}
+                                            className="text-lg font-bold text-gray-400 hover:text-white py-3 block border-b border-white/5 last:border-0"
+                                            onClick={() => setIsMobileMenuOpen(false)}
+                                        >
+                                            {link.name}
+                                        </a>
+                                    ) : (
+                                        <Link
+                                            to={link.href}
+                                            className={cn(
+                                                "text-lg font-bold py-3 block border-b border-white/5 last:border-0",
+                                                location.pathname === link.href ? "text-runtime-primary" : "text-gray-400 hover:text-white"
+                                            )}
+                                        >
+                                            {link.name}
+                                        </Link>
+                                    )}
+                                </motion.div>
+                            ))}
+                            <a href="/#contact" className="mt-4 w-full py-4 rounded-xl bg-runtime-primary text-white font-bold shadow-xl shadow-runtime-primary/10 text-center block" onClick={() => setIsMobileMenuOpen(false)}>
+                                شروع گفتگو
+                            </a>
+                        </nav>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </header>
     );
 };
 
 export default Header;
+

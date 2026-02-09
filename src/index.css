@@ -2,64 +2,73 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+/* Import Vazirmatn (FA) and Inter (EN) */
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&family=Inter:wght@100..900&family=Fira+Code:wght@300..600&display=swap');
 
 @layer base {
   :root {
-    --background: 240 10% 3.9%;
+    /* Deep Dark Logic */
+    --background: 240 10% 2%;
+    /* #050505 */
     --foreground: 0 0% 98%;
+    /* #FAFAFA */
 
-    --card: 240 10% 3.9%;
+    --card: 240 6% 7%;
+    /* #121212 */
     --card-foreground: 0 0% 98%;
 
-    --popover: 240 10% 3.9%;
+    --popover: 240 6% 7%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 217 91% 60%;
+    /* Electric Blue #3b82f6 */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 262 80% 66%;
+    /* Violet */
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted: 240 4% 16%;
+    --muted-foreground: 240 5% 65%;
 
-    --accent: 240 3.7% 15.9%;
+    --accent: 190 90% 43%;
+    /* Cyan */
     --accent-foreground: 0 0% 98%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --border: 240 4% 16%;
+    --input: 240 4% 16%;
+    --ring: 217 91% 60%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
   }
 }
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply scroll-smooth;
   }
 
   body {
-    @apply bg-background text-foreground font-vazir;
+    @apply bg-background text-foreground font-vazir antialiased min-h-screen;
     direction: rtl;
-    background-color: #030303;
-    /* Deep black */
-    background-image:
-      radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.08) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.08) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.08) 0px, transparent 50%),
-      radial-gradient(at 0% 100%, rgba(168, 85, 247, 0.08) 0px, transparent 50%);
-    background-attachment: fixed;
+    /* Default to RTL */
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02";
+
+    /* Subtle Grain or Noise Texture (optional, modern feel) */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
   }
 
-  /* Force LTR and Poppins for English sections */
+  /* Force LTR and Inter for English sections / Code */
   .en,
   [dir="ltr"] {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif;
     direction: ltr;
   }
 
@@ -70,30 +79,49 @@
     direction: rtl;
   }
 
+  code,
+  pre,
+  .mono {
+    font-family: 'Fira Code', monospace;
+  }
+
   h1,
   h2,
   h3,
   h4,
   h5,
   h6 {
-    @apply tracking-tight;
+    @apply tracking-tight font-vazir font-bold;
+  }
+
+  /* Selection Color */
+  ::selection {
+    @apply bg-primary/30 text-white;
   }
 }
 
 @layer utilities {
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-cyan-400;
+  }
+
+  .bg-gradient-tech {
+    @apply bg-gradient-to-br from-runtime-bg via-runtime-surface to-runtime-card;
   }
 
   .glass {
-    @apply bg-white/5 backdrop-blur-md border border-white/10;
+    @apply bg-background/60 backdrop-blur-xl border border-white/5;
   }
 
   .glass-card {
-    @apply bg-white/5 backdrop-blur-xl border border-white/10 shadow-xl;
+    @apply bg-card/60 backdrop-blur-2xl border border-white/10 hover:border-runtime-primary/40 transition-all duration-500 shadow-xl;
   }
 
   .glass-header {
-    @apply bg-background/60 backdrop-blur-xl border-b border-white/5 supports-[backdrop-filter]:bg-background/20;
+    @apply bg-background/80 backdrop-blur-[32px] border-b border-white/10 supports-[backdrop-filter]:bg-background/60;
+  }
+
+  .container-width {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 }

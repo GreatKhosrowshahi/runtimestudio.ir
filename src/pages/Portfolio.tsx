@@ -1,217 +1,271 @@
-import { Layout } from "@/components/layout/Layout";
-import { Button } from "@/components/ui/button";
+
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Layout from "@/components/Layout";
+import Meta from "@/components/SEO/Meta";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ExternalLink, Sparkles, Target, Zap, TrendingUp, Trophy } from "lucide-react";
-import projectDashboard from "@/assets/project-dashboard.jpg";
-import projectEcommerce from "@/assets/project-ecommerce.jpg";
-import projectFintech from "@/assets/project-fintech.jpg";
+import { ArrowLeft, ExternalLink, Target, Layers, Info, ListChecks, Terminal } from "lucide-react";
 
 const projects = [
   {
-    title: "Novin E-Commerce",
-    persianTitle: "پلتفرم فروشگاهی نوین",
-    category: "Architecture & Frontend",
-    description: "پلتفرم فروشگاهی مقیاس‌پذیر که استانداردهای جدیدی در تجربه خرید آنلاین خلق کرد.",
-    challenge: "نیاز به سیستم فروشگاهی سفارشی با قابلیت هندل کردن ترافیک بالا و مدیریت فروشندگان متعدد.",
-    solution: "طراحی معماری میکروسرویس و استفاده از Next.js برای سئو و سرعت فوق‌العاده.",
-    techStack: ["React", "Next.js", "TypeScript", "PostgreSQL"],
-    metrics: [
-      { label: "Conversion Rate", value: "+40%", icon: TrendingUp },
-      { label: "Load Time", value: "<1.2s", icon: Zap },
-      { label: "Stability", value: "99.9%", icon: Trophy },
+    id: "morpho",
+    title: "Morpho Cafe",
+    persianTitle: "مورفو کافه: سامانه هوشمند منوی دیجیتال",
+    category: "Product Engineering",
+    description: "مورفو کافه یک سیستم منوی دیجیتال تعاملی و پیشرفته است که برای کافه‌های لوکس و مدرن طراحی شده است. این پروژه با زیبایی‌شناسی Luxury Dark و افکت‌های شیشه‌ای (Glassmorphism) به همراه یک موتور پیشنهاددهنده هوشمند، تجربه مشتری را به سطح جدیدی ارتقا می‌دهد.",
+    features: [
+      "مود باریستا (پیشنهاددهنده هوشمند): دستیار تعاملی بر اساس مود و ذائقه کاربر",
+      "رابط کاربری پریمیوم (Morho): طراحی Mobile-First با انیمیشن‌های Framer Motion",
+      "پنل مدیریت (Dashboard): مدیریت لحظه‌ای محصولات و موجودی با Supabase",
+      "PWA & Offline Support: سرعت لود خیره‌کننده و استفاده بدون اینترنت",
+      "کاملاً فارسی و RTL: بهینه‌سازی شده با فونت وزیرمتن"
     ],
-    image: projectEcommerce,
-    color: "from-blue-600 to-cyan-500"
-  },
-  {
-    title: "Insight Analytics",
-    persianTitle: "داشبورد تحلیلی هوشمند",
-    category: "Data Visualization",
-    description: "تبدیل داده‌های خام به بینش‌های تجاری ارزشمند از طریق یک رابط بصری پیشرفته.",
-    challenge: "یکپارچه‌سازی داده‌های پراکنده از ۱۰ منبع مختلف و نمایش آن‌ها در زمان واقعی.",
-    solution: "پیاده‌سازی پایپ‌لاین‌های داده و استفاده از D3.js برای نمودارهای تعاملی پیچیده.",
-    techStack: ["D3.js", "React", "Python", "Redis"],
+    challenge: "پیاده‌سازی یک تجربه بصری فوق‌العاده سنگین در قالب وب بدون افت پرفورمنس در دستگاه‌های ضعیف.",
+    solution: "استفاده از سیستم پیشنهاددهنده هوشمند و بهینه‌سازی لایه رندرینگ با GPU Acceleration.",
+    techStack: ["React 18", "TypeScript", "Vite", "Tailwind CSS", "Framer Motion", "Supabase", "TanStack Query"],
     metrics: [
-      { label: "Report Time", value: "-60%", icon: Zap },
-      { label: "Data Sources", value: "15+", icon: Target },
-      { label: "User Adoption", value: "100%", icon: Sparkles },
+      { label: "UX Rating", value: "4.9/5" },
+      { label: "Load speed", value: "0.7s" }
     ],
-    image: projectDashboard,
-    color: "from-purple-600 to-pink-500"
-  },
-  {
-    title: "Fintech Wallet",
-    persianTitle: "اپلیکیشن مالی و بانکی",
-    category: "Mobile Engineering",
-    description: "امن‌ترین راه برای مدیریت دارایی‌های دیجیتال با رابط کاربری در سطح جهانی.",
-    challenge: "تضمین امنیت تراکنش‌ها و ایجاد یک تجربه کاربری ساده برای مفاهیم پیچیده مالی.",
-    solution: "استفاده از React Native با ماژول‌های بومی امنیتی و سیستم احراز هویت بیومتریک.",
-    techStack: ["React Native", "Node.js", "Encryption", "Auth0"],
-    metrics: [
-      { label: "App Store", value: "4.8/5", icon: Trophy },
-      { label: "Downloads", value: "10k+", icon: TrendingUp },
-      { label: "Transaction Time", value: "0.2s", icon: Zap },
-    ],
-    image: projectFintech,
-    color: "from-emerald-600 to-teal-500"
-  },
+    image: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=1000",
+    color: "from-orange-600 to-amber-500"
+  }
 ];
 
 const PortfolioPage = () => {
+  const [activeTab, setActiveTab] = useState("overview");
+
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden bg-[#050505]">
-        <div className="absolute inset-0 z-0">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary/5 via-background to-background" />
-        </div>
+      <Meta
+        title="نمونه کارهای مهندسی و پروژه‌ها | Runtime Studio"
+        description="مشاهده گزیده‌ای از پروژه‌های فنی رانتایم استودیو شامل معماری نرم‌افزار، طراحی اپلیکیشن و سامانه‌های تحت وب مقیاس‌پذیر."
+      />
 
-        <div className="container-custom relative z-10 text-center animate-blur-in en">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/5 bg-white/5 backdrop-blur-xl mb-12">
-            <Trophy className="w-4 h-4 text-primary" />
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-foreground/70">Our Halls of Fame</span>
-          </div>
-          <h1 className="text-6xl md:text-9xl font-black mb-10 tracking-tighter leading-[0.85]">
-            SELECTED <br />
-            <span className="gradient-text glow-text leading-tight">WORKS</span>
-          </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed font-vazir text-center" dir="rtl">
-            هر پروژه، شاهدی بر تعهد ما به برتری فنی و خلاقیت بی‌پایان است.
+      {/* Hero */}
+      <section className="relative pt-20 pb-20 overflow-hidden text-center">
+        <div className="container-width relative z-10">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-runtime-primary/10 border border-runtime-primary/20 text-runtime-primary text-[10px] font-bold uppercase tracking-[0.3em] en mb-8"
+          >
+            Selected Case Studies
+          </motion.div>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-5xl md:text-9xl font-black mb-10 tracking-tighter leading-none en"
+          >
+            SELECTED <br /> <span className="text-gradient">WORKS</span>
+          </motion.h1>
+          <p className="text-gray-400 text-xl max-w-2xl mx-auto font-vazir">
+            گزیده‌ای از پروژه‌های فنی و طراحی سایت حرفه‌ای با تمرکز بر حل چالش‌های مهندسی و توسعه سیستم‌های مقیاس‌پذیر.
           </p>
         </div>
       </section>
 
       {/* Projects List */}
-      <section className="section-padding relative">
-        <div className="container-custom">
-          <div className="space-y-40">
-            {projects.map((p, i) => (
-              <article key={i} className="group relative">
-                <div className={`grid grid-cols-1 lg:grid-cols-12 gap-16 items-center ${i % 2 === 1 ? 'lg:rtl' : ''}`}>
+      <section className="py-24">
+        {projects.map((p, idx) => (
+          <div key={p.title} className="container-width mb-40">
+            <div className={`grid grid-cols-1 lg:grid-cols-12 gap-16 items-start`}>
+              {/* Stats & Preview */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                className="lg:col-span-6 relative group lg:sticky lg:top-32"
+              >
+                <div className="relative aspect-[16/10] rounded-[3rem] overflow-hidden border border-white/5 shadow-2xl">
+                  <img src={p.image} alt={p.title} className="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-runtime-bg via-transparent to-transparent opacity-80" />
 
-                  {/* Visual Column */}
-                  <div className="lg:col-span-12 xl:col-span-7 relative group/image">
-                    <div className="relative aspect-[16/9] rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl transition-transform duration-700 animate-fade-up">
-                      <img
-                        src={p.image}
-                        alt={p.title}
-                        className="w-full h-full object-cover grayscale-[0.3] group-hover/image:grayscale-0 group-hover/image:scale-110 transition-all duration-1000"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-60" />
-
-                      {/* Overlay Badge */}
-                      <div className="absolute top-10 right-10 flex flex-col items-end gap-2 animate-float en">
-                        <span className={`px-5 py-2 rounded-full bg-gradient-to-r ${p.color} text-white font-black text-[10px] tracking-widest uppercase shadow-xl`}>
-                          {p.category}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Floating Stats over Image (Desktop only) */}
-                    <div className="hidden xl:grid grid-cols-3 gap-4 absolute -bottom-10 left-10 right-10 z-20 en">
-                      {p.metrics.map((m, idx) => (
-                        <div key={idx} className="glass-card p-6 rounded-3xl border-white/10 shadow-2xl animate-fade-up" style={{ animationDelay: `${0.3 + idx * 0.1}s` }}>
-                          <m.icon className="w-6 h-6 text-primary mb-3" />
-                          <div className="text-2xl font-black text-foreground mb-1">{m.value}</div>
-                          <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{m.label}</div>
-                        </div>
-                      ))}
-                    </div>
+                  <div className="absolute top-6 right-6">
+                    <span className={`px-4 py-2 rounded-xl glass border-white/10 text-[10px] en font-bold text-white uppercase tracking-widest bg-gradient-to-r ${p.color}`}>
+                      {p.category}
+                    </span>
                   </div>
 
-                  {/* Content Column */}
-                  <div className="lg:col-span-12 xl:col-span-5 animate-fade-up" style={{ animationDelay: "0.2s" }}>
-                    <div className={`text-[10px] font-black uppercase tracking-[0.4em] mb-6 bg-gradient-to-r ${p.color} bg-clip-text text-transparent en`}>
-                      Case Study / {p.title}
-                    </div>
-                    <h2 className="text-4xl md:text-5xl font-black mb-8 tracking-tight">
-                      <span className="en">{p.title}</span> <br />
-                      <span className="text-foreground/40 text-2xl md:text-3xl font-vazir block mt-4" dir="rtl">{p.persianTitle}</span>
-                    </h2>
-
-                    <p className="text-xl text-muted-foreground leading-relaxed mb-10 font-vazir" dir="rtl">
-                      {p.description}
-                    </p>
-
-                    {/* Brief Detail Grid */}
-                    <div className="grid grid-cols-1 gap-6 mb-12">
-                      <div className="p-8 rounded-[2rem] bg-secondary/30 border border-white/5 hover:border-primary/20 transition-all font-vazir text-right" dir="rtl">
-                        <div className="flex items-center gap-3 mb-4">
-                          <Target className="w-5 h-5 text-primary" />
-                          <span className="text-sm font-black uppercase tracking-widest text-foreground">The Challenge</span>
-                        </div>
-                        <p className="text-muted-foreground leading-relaxed">{p.challenge}</p>
+                  {/* Quick Metrics */}
+                  <div className="absolute bottom-8 left-8 flex gap-4">
+                    {p.metrics.map(m => (
+                      <div key={m.label} className="glass p-4 rounded-2xl border-white/10 text-center min-w-[100px]">
+                        <p className="text-white font-black text-xl en leading-none mb-1">{m.value}</p>
+                        <p className="text-[8px] text-gray-400 uppercase tracking-widest en font-bold">{m.label}</p>
                       </div>
-                      <div className="p-8 rounded-[2rem] bg-secondary/30 border border-white/5 hover:border-primary/20 transition-all font-vazir text-right" dir="rtl">
-                        <div className="flex items-center gap-3 mb-4">
-                          <Sparkles className="w-5 h-5 text-primary" />
-                          <span className="text-sm font-black uppercase tracking-widest text-foreground">The Solution</span>
-                        </div>
-                        <p className="text-muted-foreground leading-relaxed">{p.solution}</p>
-                      </div>
-                    </div>
-
-                    {/* Tech Tag list */}
-                    <div className="flex flex-wrap gap-3 mb-12 en">
-                      {p.techStack.map((tech, idx) => (
-                        <span key={idx} className="px-4 py-2 rounded-xl bg-background border border-white/10 text-[10px] font-black uppercase tracking-widest text-foreground/70 hover:text-primary hover:border-primary/30 transition-all">
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-
-                    <Button variant="hero" size="xl" asChild className="rounded-2xl px-12 group w-full sm:w-auto en">
-                      <Link to="/contact">
-                        Start a similar project
-                        <ArrowLeft className="mr-3 w-6 h-6 transition-transform group-hover:-translate-x-2" />
-                      </Link>
-                    </Button>
+                    ))}
                   </div>
-
                 </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+              </motion.div>
 
-      {/* Gallery Stats / Trust Section */}
-      <section className="section-padding bg-[#0A0A0A] relative overflow-hidden">
-        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-        <div className="container-custom relative z-10 text-center en">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 max-w-5xl mx-auto">
-            {[
-              { label: "Elite Projects", value: "15+" },
-              { label: "Happy Clients", value: "100%" },
-              { label: "Lines of Code", value: "1M+" },
-              { label: "Awards Win", value: "5+" },
-            ].map((s, i) => (
-              <div key={i} className="animate-fade-up" style={{ animationDelay: `${i * 0.1}s` }}>
-                <div className="text-4xl md:text-6xl font-black text-foreground mb-4">{s.value}</div>
-                <div className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">{s.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+              {/* Tabbed Content */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="lg:col-span-6"
+              >
+                <div className={`text-[10px] font-black uppercase tracking-[0.4em] mb-4 bg-gradient-to-r ${p.color} bg-clip-text text-transparent en`}>
+                  Engineering Report / {p.title}
+                </div>
+                <h2 className="text-4xl md:text-5xl font-black mb-4 en">
+                  {p.title}
+                </h2>
+                <p className="text-gray-400 text-2xl font-vazir mb-8" dir="rtl">
+                  {p.persianTitle}
+                </p>
 
-      {/* CTA Section */}
-      <section className="section-padding relative">
-        <div className="container-custom">
-          <div className="relative rounded-[4rem] p-12 md:p-32 bg-white/5 border border-white/10 overflow-hidden group text-center">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-            <div className="relative z-10 en">
-              <h2 className="text-4xl md:text-7xl font-black mb-8 tracking-tight uppercase">READY TO BECOME <br /><span className="gradient-text leading-tight">THE NEXT SUCCESS?</span></h2>
-              <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto font-vazir text-center" dir="rtl">
-                ما آماده‌ایم تا ایده شما را به عنوان برند برتر بعدی در این گالری ثبت کنیم.
-              </p>
-              <Button variant="hero" size="xl" asChild className="rounded-2xl px-16 h-20 text-xl group shadow-2xl shadow-primary/20">
-                <Link to="/contact" className="en">
-                  Work with us
-                  <ArrowLeft className="mr-4 w-8 h-8 transition-transform group-hover:-translate-x-2" />
+                {/* Tabs Multi-Switch */}
+                <div className="flex bg-white/5 p-1 rounded-2xl border border-white/5 mb-8" dir="rtl">
+                  {[
+                    { id: "overview", label: "بررسی کلی", icon: <Info size={14} /> },
+                    { id: "features", label: "ویژگی‌ها", icon: <ListChecks size={14} /> },
+                    { id: "tech", label: "فنی و مهندسی", icon: <Terminal size={14} /> }
+                  ].map((tab) => (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id)}
+                      className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-vazir transition-all ${activeTab === tab.id
+                          ? "bg-runtime-primary text-white shadow-lg shadow-runtime-primary/20"
+                          : "text-gray-500 hover:text-gray-300"
+                        }`}
+                    >
+                      {tab.icon}
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Animated Body */}
+                <div className="min-h-[300px] mb-12">
+                  <AnimatePresence mode="wait">
+                    {activeTab === "overview" && (
+                      <motion.div
+                        key="overview"
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
+                        className="font-vazir"
+                        dir="rtl"
+                      >
+                        <p className="text-gray-300 text-lg leading-relaxed text-justify">
+                          {p.description}
+                        </p>
+                      </motion.div>
+                    )}
+
+                    {activeTab === "features" && (
+                      <motion.div
+                        key="features"
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
+                        className="font-vazir"
+                        dir="rtl"
+                      >
+                        <ul className="space-y-4">
+                          {p.features.map((feature, i) => (
+                            <li key={i} className="flex items-start gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 group hover:border-runtime-primary/30 transition-colors">
+                              <div className="mt-1 w-2 h-2 rounded-full bg-runtime-primary group-hover:scale-125 transition-transform" />
+                              <span className="text-gray-400 text-sm leading-relaxed group-hover:text-white transition-colors">
+                                {feature}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </motion.div>
+                    )}
+
+                    {activeTab === "tech" && (
+                      <motion.div
+                        key="tech"
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
+                        className="font-vazir"
+                        dir="rtl"
+                      >
+                        <div className="space-y-8">
+                          <div>
+                            <div className="flex items-center gap-3 mb-4 text-runtime-primary">
+                              <Target size={20} />
+                              <span className="text-xs font-black uppercase tracking-widest en">Core Challenge</span>
+                            </div>
+                            <p className="text-gray-400 text-sm leading-relaxed border-r-2 border-runtime-primary/20 pr-4">
+                              {p.challenge}
+                            </p>
+                          </div>
+
+                          <div>
+                            <div className="flex items-center gap-3 mb-4 text-runtime-secondary">
+                              <Layers size={20} />
+                              <span className="text-xs font-black uppercase tracking-widest en">Applied Stack</span>
+                            </div>
+                            <div className="flex flex-wrap gap-2">
+                              {p.techStack.map(t => (
+                                <span key={t} className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-[10px] en font-bold text-gray-400 uppercase tracking-tighter">
+                                  {t}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                <Link to="/contact" className="inline-flex items-center gap-3 px-8 py-4 rounded-xl border border-white/10 hover:border-runtime-primary transition-all font-vazir group w-full justify-center">
+                  مشاوره مشابه این پروژه
+                  <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
                 </Link>
-              </Button>
+              </motion.div>
             </div>
+          </div>
+        ))}
+      </section>
+
+      {/* Stats Trust */}
+      <section className="py-24 border-y border-white/5 bg-runtime-surface/20">
+        <div className="container-width">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
+            {[
+              { label: "Elite Projects", value: "24+" },
+              { label: "Global Clients", value: "10" },
+              { label: "Code Integrity", value: "100%" },
+              { label: "Uptime Avg", value: "99.9%" }
+            ].map((s, idx) => (
+              <motion.div
+                key={s.label}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+              >
+                <p className="text-4xl md:text-6xl font-black mb-2 en">{s.value}</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-runtime-primary en">{s.label}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="py-32">
+        <div className="container-width">
+          <div className="glass-card rounded-[4rem] p-12 md:p-32 text-center relative overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-br from-runtime-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+            <h2 className="text-4xl md:text-7xl font-black mb-8 en tracking-tighter uppercase">
+              YOUR PROJECT <br /> <span className="text-gradient">NEXT?</span>
+            </h2>
+            <p className="text-gray-400 text-xl font-vazir mb-12">
+              ما آماده‌ایم تا چالش بعدی شما را به یک محصول موفقیت‌آمیز تبدیل کنیم.
+            </p>
+            <Link to="/contact" className="inline-flex items-center gap-4 px-12 py-6 rounded-2xl bg-white text-black font-black text-xl hover:bg-runtime-primary hover:text-white transition-all group">
+              Let's Talk Tech
+              <ExternalLink size={24} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            </Link>
           </div>
         </div>
       </section>
@@ -220,4 +274,5 @@ const PortfolioPage = () => {
 };
 
 export default PortfolioPage;
+
 

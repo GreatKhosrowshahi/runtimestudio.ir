@@ -34,6 +34,7 @@ import ServicesPage from "./pages/Services";
 
 import { HelmetProvider } from "react-helmet-async";
 import BlogPage from "./pages/Blog";
+import BlogPostDetail from "./pages/BlogPostDetail";
 
 const App = () => {
   return (
@@ -47,6 +48,7 @@ const App = () => {
               <Route path="/" element={<Landing />} />
               <Route path="/services" element={<ServicesPage />} />
               <Route path="/blog" element={<BlogPage />} />
+              <Route path="/blog/:slug" element={<BlogPostDetail />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
